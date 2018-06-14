@@ -1,0 +1,116 @@
+<svelte:head>
+	<title>betterPension - Die Altersvorsorge der Zukunft</title>
+</svelte:head>
+
+<main class="hero is-fullheight">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+			{#if signupFinished}
+				<div class="notification is-success">
+					Yeah!
+				</div>
+			{:else}
+				<h1 class="title has-text-primary is-spaced">
+					<span>Sparen für die Pension <span class="has-text-brand">muss</span></span><br />
+					<AnimatedText text="kompliziert, teuer und unflexibel sein" />
+	      </h1>
+
+				{#if !selection}
+					<div class="choice has-text-centered">
+						<button class="button is-rounded is-outlined is-brand" on:click="set({ selection: 'yes' })">Ja</button>
+						<button class="button is-rounded is-outlined is-brand" on:click="set({ selection: 'no' })">Nein</button>
+						<button class="button is-rounded is-outlined is-brand" on:click="set({ selection: 'yolo' })">YOLO</button>
+					</div>
+				{:else}
+					<h2 class="subtitle has-text-brand">{answer}</h2>
+					<p class="subtitle has-text-brand">Neugierig? ;)</p>
+
+					<Signup bind:isFinished="signupFinished" />
+				{/if}
+			{/if}
+		</div>
+	</div>
+</main>
+
+<style type="text/sass">
+	@import '../styles/bulma';
+
+	.choice {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		.button {
+			height: 3em;
+			min-width: 200px;
+			margin: 1.2em;
+			text-transform: uppercase;
+		}
+
+		@media (max-width: 768px) {
+			flex-direction: column;
+
+			.button {
+				display: block;
+			}
+		}
+	}
+
+	.hero.is-fullheight {
+		margin-top: -$navbar-height;
+	}
+
+	.hero {
+		@media (max-width: 414px) {
+			.title {
+				font-size: 1.5em;
+			}
+		}
+
+		@media (min-width: 768px) {
+			.title {
+				font-size: 3em;
+			}
+
+			.subtitle {
+				font-size: 2em;
+			}
+		}
+
+		@media (min-width: 1024px) {
+			.title {
+				font-size: 4em;
+			}
+		}
+	}
+</style>
+
+<script>
+	import Signup from '../components/Signup.html';
+	import AnimatedText from '../components/AnimatedText.html';
+
+	export default {
+	  data() {
+	    return {
+	      selection: false,
+	      signupFinished: false,
+	    };
+	  },
+	  computed: {
+	    answer({ selection }) {
+	      /* eslint-disable max-len */
+	      return {
+	        yes: `Wetten, es geht besser?
+Wir sind bereits dabei, das Sparschwein der Zukunft zu entwickeln, für dich.`,
+	        no: 'Da sind wir uns einig! Wir arbeiten bereits an einer Vorsorge, bei der DU die volle Kontrolle hast.',
+	        yolo: 'You only live once! Und damit du später mehr Zeit hast für andere Dinge, entwickeln wir eine Vorsorge, wie sie sein sollte.',
+	      }[selection] || '';
+	      /* eslint-enable max-len */
+	    },
+	  },
+	  components: {
+	    Signup,
+	    AnimatedText,
+	  },
+	};
+</script>

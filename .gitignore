@@ -1,0 +1,7 @@
+.sapper
+app/manifest
+assets/global.css
+build
+export
+node_modules
+test/report

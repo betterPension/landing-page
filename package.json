@@ -1,0 +1,56 @@
+{
+  "name": "@better-pension/langing-page",
+  "version": "0.0.0",
+  "description": "Landing page for betterPension",
+  "license": "UNLICENSED",
+  "private": true,
+  "author": "Lukas Hechenberger <npm@ls-age.com>",
+  "main": "build/index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "build:sapper": "sapper build",
+    "build:styles": "node-sass styles/base.scss --include-path node_modules > assets/global.css",
+    "build": "run-p build:*",
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "dev": "sapper dev",
+    "export": "sapper export",
+    "lint": "eslint . --ext .js,.html",
+    "start": "node build",
+    "start:export": "npx serve export",
+    "test:integration": "run-p --race start:export cy:run",
+    "test:export": "blcl export --filter-level 3",
+    "test": "run-p test:*"
+  },
+  "eslintConfig": {
+    "extends": "@ls-age",
+    "parserOptions": {
+      "ecmaVersion": 2017
+    },
+    "plugins": [
+      "html"
+    ]
+  },
+  "dependencies": {
+    "compression": "^1.7.1",
+    "polka": "^0.4.0",
+    "sapper": "^0.13.1",
+    "sirv": "^0.1.1"
+  },
+  "devDependencies": {
+    "@ls-age/eslint-config": "^0.8.0",
+    "broken-link-checker-local": "^0.2.0",
+    "bulma": "^0.7.1",
+    "cypress": "^3.0.1",
+    "eslint": "^4.19.1",
+    "eslint-plugin-html": "^4.0.3",
+    "node-sass": "^4.9.0",
+    "npm-run-all": "^4.1.2",
+    "svelte": "^2.7.2",
+    "svelte-loader": "^2.9.0",
+    "svelte-preprocess-sass": "^0.1.0",
+    "webpack": "^4.7.0"
+  }
+}

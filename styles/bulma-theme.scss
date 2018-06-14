@@ -1,0 +1,35 @@
+// Import the initial variables
+@import "bulma/sass/utilities/initial-variables";
+@import "bulma/sass/utilities/functions";
+
+// Set own initial variables
+// Update blue
+// $blue: #72d0eb;
+// Add pink and its invert
+/* $pink: #ffb3b3;
+$pink-invert: #fff; */
+$background-color: #F1F6F8;
+// Add a serif family
+// $family-serif: "Merriweather", "Georgia", serif;
+
+// Set derived variables
+$primary: #5DD9C1;
+// Use the new fong family
+// $family-primary: $family-serif;
+
+// 4. Setup your Custom Colors
+$brand: #4A6E8E;
+$brand-invert: findColorInvert($brand);
+/* $linkedin: #0077b5;
+$linkedin-invert: findColorInvert($linkedin);
+$twitter: #55acee;
+$twitter-invert: findColorInvert($twitter);
+$github: #333;
+$github-invert: findColorInvert($github); */
+
+// Add new color variables to the color map.
+@import "bulma/sass/utilities/derived-variables";
+$addColors: (
+  "brand":($brand, $brand-invert),
+);
+$colors: map-merge($colors, $addColors);

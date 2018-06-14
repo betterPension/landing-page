@@ -1,0 +1,164 @@
+defaults: &defaults
+  docker:
+    - image: circleci/node:8
+
+git-login: &git-login
+  name: Setting up git user
+  command: git config --global user.email circleci@circleci.com && git config --global user.name CircleCI
+
+version: 2
+jobs:
+  install-deps:
+    <<: *defaults
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v3-npm-deps-{{ checksum "package-lock.json" }}
+      - run:
+          name: Installing npm dependencies
+          command: npm install
+      - run:
+          <<: *git-login
+      - run:
+          name: Handling package-lock changes
+          command: |
+            if git diff --exit-code package-lock.json; then
+              echo "package-lock did not change"
+            else
+              if [[ $CIRCLE_BRANCH = *"greenkeeper/"* ]]; then
+                echo "Committing package-lock changes"
+                git add package-lock.json
+                git commit -m 'chore(package): Update lockfile [ci skip]';
+              else
+                echo "Resetting package-lock changes"
+                git checkout -- package-lock.json
+              fi
+            fi
+
+            echo "Done"
+      - save_cache:
+          key: v2-npm-deps-{{ checksum "package-lock.json" }}
+          paths:
+            - node_modules
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Creating global styles
+          command: npm run build:styles
+      - run:
+          name: Creating static app
+          command: npm run export
+      - persist_to_workspace:
+          root: .
+          paths:
+            - export
+
+  lint-source:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Linting source files
+          command: npm run lint -- --format junit --output-file ~/reports/eslint.xml
+      - store_test_results:
+          path: ~/reports
+          when: always
+      - store_artifacts:
+          path: ~/reports
+          when: always
+
+  integration-tests:
+    docker:
+      - image: cypress/base:8
+        environment:
+          TERM: xterm
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Running integration tests
+          command: npm run test:integration
+      - store_test_results:
+          path: ./test/report
+          when: always
+      - store_artifacts:
+          path: ./test/report
+          when: always
+
+  broken-links:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: .
+      - run:
+          name: Checking export for broken links
+          command: npm run test:export
+
+  update-lockfile:
+    <<: *defaults
+    steps:
+      - checkout
+      - add_ssh_keys
+      - attach_workspace:
+          at: .
+      - run:
+          <<: *git-login
+      - run:
+          name: Updating lockfile
+          command: git push origin $CIRCLE_BRANCH
+
+  deploy:
+    <<: *defaults
+    steps:
+      - checkout
+      - add_ssh_keys
+      - attach_workspace:
+          at: .
+      - run:
+          <<: *git-login
+      - run:
+          name: Deploying changes
+          command:
+            npx bump-version release --release-files out docs/api --gh-token $RELEASE_GITHUB_TOKEN
+
+workflows:
+  version: 2
+
+  test-and-deploy:
+    jobs:
+      - install-deps
+      - build:
+          requires:
+            - install-deps
+      - lint-source:
+          requires:
+            - install-deps
+      - integration-tests:
+          requires:
+            - build
+      - broken-links:
+          requires:
+            - build
+      - update-lockfile:
+          requires:
+            - lint-source
+            - integration-tests
+            - broken-links
+          filters:
+            branches:
+              only: /greenkeeper\//
+      - deploy:
+          requires:
+            - lint-source
+            - integration-tests
+            - broken-links

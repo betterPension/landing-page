@@ -1,0 +1,29 @@
+<span>{animatedText}</span>
+
+<script>
+  export default {
+    oncreate() {
+      const text = this.get().text;
+      let i = 0;
+
+      const tick = () => {
+        i++;
+
+        if (i <= text.length) {
+          this.set({ animatedText: text.slice(0, i) });
+
+          setTimeout(tick, text[i - 1] === ' ' ? 100 : 50);
+        } else {
+          this.set({ isFinished: true });
+        }
+      };
+
+      tick();
+    },
+    data() {
+      return {
+        animatedText: '',
+      };
+    },
+  };
+</script>

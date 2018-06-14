@@ -1,0 +1,15 @@
+<main class="section">
+  <div class="container">
+    <slot></slot>
+  </div>
+</main>
+
+<style type="text/sass">
+	@import '../styles/bulma';
+
+	.container {
+		:global(p) {
+			line-height: 1.75em;
+		}
+	}
+</style>

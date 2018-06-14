@@ -1,0 +1,68 @@
+<div class="navbar is-transparent is-fixed-top">
+	<div class="navbar-brand">
+		<a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
+			<img src="/res/better-pension.svg" alt="BetterPension" />
+			<!-- <span>BetterPension</span> -->
+		</a>
+		<div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </div>
+	</div>
+	<div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
+		<div class="navbar-end">
+			<a rel=prefetch href="/mission" class="navbar-item">Mission</a>
+		</div>
+	</div>
+</div>
+
+<style type="text/sass">
+	@import '../styles/bulma.scss';
+
+	.navbar-brand .navbar-item {
+		text-align: center;
+	}
+	.navbar-brand .navbar-item img {
+		height: 65%;
+	}
+
+	.navbar {
+		background-color: $background-color;
+		background-image: url('/res/background.svg');
+		background-size: 100% auto;
+		background-position: top left;
+	}
+
+	:global(html) {
+		padding-top: $navbar-height;
+	}
+</style>
+
+<script>
+	import { isActive } from '../helpers/bulma';
+
+	export default {
+	  helpers: {
+	    isActive,
+	  },
+	  data() {
+	    return {
+	      isMenuShown: false,
+	    };
+	  },
+	  computed: {
+	    isActivePage({ page }) {
+	      return test => isActive(page === test);
+	    },
+	  },
+	  methods: {
+	    toggleMenu() {
+	      this.set({ isMenuShown: !this.get().isMenuShown });
+	    },
+	    hideMenu() {
+	      this.set({ isMenuShown: false });
+	    },
+	  },
+	};
+</script>
