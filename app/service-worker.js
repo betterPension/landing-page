@@ -1,5 +1,6 @@
 /* eslint-disable compat/compat */
 
+// eslint-disable-next-line import/no-unresolved
 import { timestamp, assets, shell } from './manifest/service-worker.js';
 
 const ASSETS = `cache${timestamp}`;
