@@ -133,7 +133,7 @@ jobs:
       - run:
           name: Deploying changes
           command:
-            npx @ls-age/bump-version release --release-files out docs/api --gh-token $RELEASE_GITHUB_TOKEN
+            npx @ls-age/bump-version release --release-files export --gh-token $RELEASE_GITHUB_TOKEN
 
 workflows:
   version: 2
