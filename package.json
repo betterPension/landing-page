@@ -14,7 +14,7 @@
     "build:styles": "node-sass styles/base.scss --include-path node_modules > assets/global.css",
     "build": "run-p build:*",
     "cy:open": "cypress open",
-    "cy:run": "cypress run",
+    "cy:run": "cypress run --reporter junit --reporter-options \"mochaFile=test/report/cypress.xml\"",
     "dev": "sapper dev",
     "export": "sapper export",
     "lint": "eslint . --ext .js,.html",
