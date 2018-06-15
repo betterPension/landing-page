@@ -87,6 +87,9 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: Reinstall cypress
+          command: npx cypress install
+      - run:
           name: Running integration tests
           command: npm run test:integration
       - store_test_results:
@@ -130,7 +133,7 @@ jobs:
       - run:
           name: Deploying changes
           command:
-            npx bump-version release --release-files out docs/api --gh-token $RELEASE_GITHUB_TOKEN
+            npx @ls-age/bump-version release --release-files out docs/api --gh-token $RELEASE_GITHUB_TOKEN
 
 workflows:
   version: 2
