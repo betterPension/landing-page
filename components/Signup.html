@@ -1,12 +1,12 @@
 <form class="form" on:submit="sendForm({ event, mail })">
   {#if error}
   <div class="notification is-danger">
-  Oops!
+    Oops!
   </div>
   {/if}
 
   <div class="control is-expanded">
-  <input class="input is-rounded" disabled="{isSendingForm}" type="email" placeholder="E-Mail-Adresse" bind:value="mail">
+    <input class="input is-rounded" disabled="{isSendingForm}" type="email" placeholder="E-Mail-Adresse" bind:value="mail">
   </div>
 
   <div class="control is-expanded">

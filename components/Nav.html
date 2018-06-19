@@ -9,12 +9,12 @@
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
     </div>
-	</div>
-	<div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
-		<div class="navbar-end">
-			<a rel=prefetch href="/mission" class="navbar-item">Mission</a>
-		</div>
-	</div>
+  </div>
+  <div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
+    <div class="navbar-end">
+      <a rel=prefetch href="/mission" class="navbar-item">Mission</a>
+    </div>
+  </div>
 </div>
 
 <style type="text/sass">
@@ -34,28 +34,31 @@
   import { fade } from 'svelte-transitions';
   import { isActive } from '../helpers/bulma';
 
-	export default {
-	  helpers: {
-	    isActive,
-	  },
-	  data() {
-	    return {
-	      isMenuShown: false,
-	    };
-	  },
-	  computed: {
-	    isActivePage({ page }) {
-	      return test => isActive(page === test);
-	    },
-	  },
-	  methods: {
-	    toggleMenu() {
-	      this.set({ isMenuShown: !this.get().isMenuShown });
-	    },
-	    hideMenu() {
-	      this.set({ isMenuShown: false });
-	    },
-	  },
+  export default {
+    helpers: {
+      isActive,
+    },
+    data() {
+      return {
+        isMenuShown: false,
+      };
+    },
+    computed: {
+      isActivePage({ page }) {
+        return test => isActive(page === test);
+      },
+    },
+    methods: {
+      toggleMenu() {
+        this.set({ isMenuShown: !this.get().isMenuShown });
+      },
+      hideMenu() {
+        this.set({ isMenuShown: false });
+      },
+    },
+    /* components: {
+      Background: './Background.html',
+    }, */
     transitions: {
       fade,
     },
