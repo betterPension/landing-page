@@ -63,7 +63,7 @@
 
         this.set({ isSendingForm: true, error: false });
 
-        fetch('/api/signup.php', {
+        fetch('/api/signup.php', { // eslint-disable-line compat/compat
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
