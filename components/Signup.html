@@ -10,8 +10,8 @@
   </div>
 
   <div class="control is-expanded">
-  <button type="submit" class="button is-brand is-rounded {is('loading', isSendingForm)}">Halte mich am Laufenden</button>
     <p class="help">Durch den Klick auf “Halte mich am Laufenden” erteile ich meine Einwilligung im Sinne der <a href="/abo">Newsletter Abonnementbedingungen</a>.</p>
+  <button type="submit" disabled="{!mail}" class="button is-brand is-rounded {is('loading', isSendingForm)}">Halte mich am Laufenden</button>
   </div>
 </form>
 
@@ -56,6 +56,7 @@
       sendForm({ event, mail }) {
         event.preventDefault();
 
+        if (!mail) { return; }
         this.set({ isSendingForm: true, error: false });
 
         // TODO: Implement API call here
