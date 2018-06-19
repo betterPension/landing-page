@@ -13,19 +13,16 @@
 <style type="text/sass">
   @import '../styles/bulma.scss';
 
-  :global(body) {
-    background-color: $background-color;
-  }
-
   .background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: $background-color;
     background-image: url('/res/background.svg');
     background-repeat: no-repeat;
-    background-size: 100% auto;
+    background-size: cover;
     background-position: top left;
   }
 

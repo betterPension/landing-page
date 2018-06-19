@@ -1,10 +1,10 @@
-	<div class="navbar-brand">
-		<a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
-			<img src="/res/better-pension.svg" alt="BetterPension" />
-			<!-- <span>BetterPension</span> -->
-		</a>
-		<div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
-<div class="navbar is-transparent is-fixed-top" in:fade="{ delay: page === 'home' ? 2500 : 0 }">
+<div class="navbar is-transparent" in:fade="{ delay: page === 'home' ? 2 : 0 }">
+
+  <div class="navbar-brand">
+    <a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
+      <img src="/res/better-pension.svg" alt="BetterPension" />
+    </a>
+    <div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -18,25 +18,16 @@
 </div>
 
 <style type="text/sass">
-	@import '../styles/bulma.scss';
+  @import '../styles/bulma.scss';
 
-	.navbar-brand .navbar-item {
-		text-align: center;
-	}
-	.navbar-brand .navbar-item img {
-		height: 65%;
-	}
+  .navbar-brand .navbar-item img {
+    width: auto;
+    height: 22px;
+  }
 
-	.navbar {
-		background-color: $background-color;
-		background-image: url('/res/background.svg');
-		background-size: 100% auto;
-		background-position: top left;
-	}
-
-	:global(html) {
-		padding-top: $navbar-height;
-	}
+  .navbar {
+    background-color: transparent;
+  }
 </style>
 
 <script>
