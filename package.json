@@ -19,7 +19,7 @@
     "export": "sapper export",
     "lint": "eslint . --ext .js,.html",
     "start": "node build",
-    "start:export": "npx serve export",
+    "start:export": "PORT=3000 npx serve export",
     "test:integration": "run-p --race start:export cy:run",
     "test:export": "blcl export --filter-level 3",
     "test": "run-p test:*"
