@@ -1,7 +1,7 @@
 <form class="form" on:submit="sendForm({ event, mail })">
   {#if error}
   <div class="notification is-danger">
-    Oops!
+    {error.message}
   </div>
   {/if}
 
@@ -63,13 +63,30 @@
 
         this.set({ isSendingForm: true, error: false });
 
-        // TODO: Implement API call here
-        new Promise(resolve => { // eslint-disable-line compat/compat
-          console.log('Registering', mail); // eslint-disable-line no-console
-
-          // setTimeout(() => reject(new Error('didnt work')), 1000);
-          setTimeout(resolve, 1000);
+        fetch('/api/signup.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mail }),
         })
+          .then(async res => {
+            if (res.status !== 200) {
+              let message = 'Ein Fehler ist aufgetreten, bitte versuche es später erneut.';
+
+              try {
+                const details = await res.json();
+
+                if (details.title === 'Member Exists') {
+                  message = `Die E-Mail-Adresse "${
+                    mail
+                  }" ist bereits registriert. Hast du die Mail schon bestätigt?`;
+                }
+              } catch (e) {} // eslint-disable-line no-empty
+
+              throw new Error(message);
+            }
+          })
           .then(() => this.set({ isFinished: true }))
           .then(() => goto('/newsletter/mail-ist-unterwegs'))
           .catch(error => {
