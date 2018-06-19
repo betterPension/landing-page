@@ -8,8 +8,22 @@
 	@import '../styles/bulma';
 
 	.container {
-		:global(p) {
-			line-height: 1.75em;
+    :global(h1) {
+      text-transform: uppercase;
+    }
+
+		:global(.content) {
+      word-break: break-word;
+      font-size: 1.2em;
+      line-height: 1.5em;
+
+      @media (min-width: 768px) {
+  			line-height: 2em;
+  		}
 		}
+
+    :global(.content p) {
+      text-align: justify;
+    }
 	}
 </style>
