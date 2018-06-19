@@ -63,7 +63,7 @@
 
         if (!mail) { return; }
 
-        prefetch('/newsletter/mail-ist-unterwegs');
+        prefetch('/newsletter/bestaetigen');
 
         this.set({ isSendingForm: true, error: false });
 
@@ -92,7 +92,7 @@
             }
           })
           .then(() => this.set({ isFinished: true }))
-          .then(() => goto('/newsletter/mail-ist-unterwegs'))
+          .then(() => goto('/newsletter/bestaetigen'))
           .catch(error => {
             console.error(error); // eslint-disable-line no-console
             this.set({ error });
