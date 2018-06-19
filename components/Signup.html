@@ -38,6 +38,7 @@
 </style>
 
 <script>
+  import { goto, prefetch } from 'sapper/runtime.js';
   import { is } from '../helpers/bulma';
 
   export default {
@@ -57,6 +58,9 @@
         event.preventDefault();
 
         if (!mail) { return; }
+
+        prefetch('/newsletter/mail-ist-unterwegs');
+
         this.set({ isSendingForm: true, error: false });
 
         // TODO: Implement API call here
@@ -67,6 +71,7 @@
           setTimeout(resolve, 1000);
         })
           .then(() => this.set({ isFinished: true }))
+          .then(() => goto('/newsletter/mail-ist-unterwegs'))
           .catch(error => {
             console.error(error); // eslint-disable-line no-console
             this.set({ error });
