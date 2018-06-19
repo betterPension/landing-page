@@ -51,6 +51,7 @@
     "svelte": "^2.7.2",
     "svelte-loader": "^2.9.0",
     "svelte-preprocess-sass": "^0.1.0",
+    "svelte-transitions": "^1.2.0",
     "webpack": "^4.7.0"
   }
 }

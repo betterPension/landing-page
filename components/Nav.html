@@ -1,10 +1,10 @@
-<div class="navbar is-transparent is-fixed-top">
 	<div class="navbar-brand">
 		<a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
 			<img src="/res/better-pension.svg" alt="BetterPension" />
 			<!-- <span>BetterPension</span> -->
 		</a>
 		<div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
+<div class="navbar is-transparent is-fixed-top" in:fade="{ delay: page === 'home' ? 2500 : 0 }">
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
       <span aria-hidden="true"></span>
@@ -40,7 +40,8 @@
 </style>
 
 <script>
-	import { isActive } from '../helpers/bulma';
+  import { fade } from 'svelte-transitions';
+  import { isActive } from '../helpers/bulma';
 
 	export default {
 	  helpers: {
@@ -64,5 +65,8 @@
 	      this.set({ isMenuShown: false });
 	    },
 	  },
-	};
+    transitions: {
+      fade,
+    },
+  };
 </script>
