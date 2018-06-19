@@ -1,18 +1,19 @@
 <div class="navbar is-transparent" in:fade="{ delay: page === 'home' ? 2500 : 0 }">
-
-  <div class="navbar-brand">
-    <a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
-      <img src="/res/better-pension.svg" alt="BetterPension" />
-    </a>
-    <div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
+  <div class="container">
+    <div class="navbar-brand">
+      <a href="/" class="navbar-item {isActivePage('home')}" on:click="hideMenu()">
+        <img src="/res/better-pension.svg" alt="BetterPension" />
+      </a>
+      <div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </div>
     </div>
-  </div>
-  <div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
-    <div class="navbar-end">
-      <a rel=prefetch href="/mission" class="navbar-item">Mission</a>
+    <div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
+      <div class="navbar-end">
+        <a rel=prefetch href="/mission" class="navbar-item">Mission</a>
+      </div>
     </div>
   </div>
 </div>
@@ -27,6 +28,14 @@
 
   .navbar {
     background-color: transparent;
+  }
+
+  .navbar-item {
+    font-weight: bold;
+
+    &.is-active {
+      background-color: transparent !important;
+    }
   }
 </style>
 
