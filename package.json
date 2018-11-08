@@ -5,53 +5,42 @@
   "license": "UNLICENSED",
   "private": true,
   "author": "Lukas Hechenberger <npm@ls-age.com>",
-  "main": "build/index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
     "build:sapper": "sapper build",
-    "build:styles": "node-sass styles/base.scss --include-path node_modules > assets/global.css",
+    "build:styles": "node-sass src/styles/bulma.scss --include-path node_modules > static/global.css",
     "build": "run-p build:*",
     "cy:open": "cypress open",
     "cy:run": "cypress run --reporter junit --reporter-options \"mochaFile=test/report/cypress.xml\"",
     "dev": "sapper dev",
     "export": "sapper export",
-    "lint": "eslint . --ext .js,.html",
-    "start": "node build",
-    "start:export": "PORT=3000 npx serve export",
+    "lint": "eslint src --ext .js,.html",
+    "start": "node __sapper__/build",
+    "start:export": "PORT=3000 npx serve __sapper__/export",
+    "test:export": "blcl __sapper__/export --filter-level 3",
     "test:integration": "run-p --race start:export cy:run",
-    "test:export": "blcl export --filter-level 3",
-    "test": "run-p test:*"
-  },
-  "eslintConfig": {
-    "extends": "@ls-age",
-    "parserOptions": {
-      "ecmaVersion": 2017
-    },
-    "plugins": [
-      "html"
-    ]
+    "test": "run-s test:*"
   },
   "dependencies": {
     "compression": "^1.7.1",
     "polka": "^0.4.0",
-    "sapper": "^0.13.4",
-    "sirv": "^0.1.1"
+    "query-string": "^6.2.0",
+    "sirv": "^0.2.0"
   },
   "devDependencies": {
     "@ls-age/eslint-config": "^0.8.0",
+    "babel-eslint": "^10.0.1",
     "broken-link-checker-local": "^0.2.0",
     "bulma": "^0.7.1",
-    "cypress": "^3.0.1",
-    "eslint": "^4.19.1",
-    "eslint-plugin-html": "^4.0.3",
-    "node-sass": "^4.9.0",
+    "cypress": "^3.1.0",
+    "eslint": "^5.6.1",
+    "eslint-plugin-html": "^4.0.6",
+    "node-sass": "^4.9.3",
     "npm-run-all": "^4.1.2",
-    "svelte": "^2.7.2",
+    "sapper": "^0.22.1",
+    "serve": "^10.0.2",
+    "svelte": "^2.0.0",
     "svelte-loader": "^2.9.0",
     "svelte-preprocess-sass": "^0.1.0",
-    "svelte-transitions": "^1.2.0",
     "webpack": "^4.7.0"
   }
 }
