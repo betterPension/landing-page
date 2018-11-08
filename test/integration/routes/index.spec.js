@@ -4,11 +4,10 @@ describe('Landing page', () => {
   });
 
   it('has the correct <h1>', () => {
-    cy.contains('h1', 'Sparen für die Pension muss');
+    cy.contains('h1', 'Die unabhängige Pensionsplattform für Arbeitgeber');
   });
 
-  it('shows signup form on selection', () => {
-    cy.get('.choice button.button').first().contains('Ja').click();
-    cy.get('form.form button.button').contains('Halte mich am Laufenden');
+  it('shows signup form', () => {
+    cy.get('form.form button.button').contains('Anmelden');
   });
 });

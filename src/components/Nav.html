@@ -1,0 +1,75 @@
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="container">
+    <div class="navbar-brand">
+      <a class="navbar-item" href=".">
+        <img alt="betterpension" src="logo.svg" height="39">
+      </a>
+
+      <div role="button" class="navbar-burger {isActive(isMenuShown)}" aria-label="menu" aria-expanded="false" on:click="toggleMenu()">
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <div class="navbar-menu {isActive(isMenuShown)}" on:click="hideMenu()">
+      <div class="navbar-end">
+        <a href={localizedLink('')} class="navbar-item {isActive(page === 'home')}">Home</a>
+        <a href={localizedLink('mission')} class="navbar-item {isActive(page === 'mission')}">Mission</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style type="text/sass">
+  @import '../styles/bulma-theme.scss';
+  @import 'bulma/sass/utilities/mixins.sass';
+
+  .navbar-item {
+    color: black;
+    font-weight: bold;
+  }
+
+  @include touch() {
+    .navbar-item {
+      text-align: center;
+
+      .buttons {
+        display: inline-block;
+      }
+    }
+  }
+</style>
+
+<script>
+  import { isActive } from '../helpers/bulma';
+
+  export default {
+    helpers: {
+      isActive,
+    },
+    data() {
+      return {
+        isMenuShown: false,
+      };
+    },
+    computed: {
+      isActivePage({ page }) {
+        return test => isActive(page === test);
+      },
+      localizedLink({ query: { lang } }) {
+        const search = lang ? `/?lang=${lang}` : '';
+
+        return path => `${path}${search}`;
+      },
+    },
+    methods: {
+      toggleMenu() {
+        this.set({ isMenuShown: !this.get().isMenuShown });
+      },
+      hideMenu() {
+        this.set({ isMenuShown: false });
+      },
+    },
+  };
+</script>

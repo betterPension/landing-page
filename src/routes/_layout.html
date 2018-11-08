@@ -1,0 +1,45 @@
+<svelte:head>
+	<title>betterpension</title>
+</svelte:head>
+
+<div class="wrapper">
+  <Nav query={child.props.query} page={
+    child.props.path === '/' ? 'home' :
+    child.props.path === '/mission' ? 'mission' :
+    null
+	}/>
+
+  <svelte:component this={child.component} {...child.props}/>
+</div>
+
+<footer class="footer">
+	<div class="has-text-centered">
+    <p class="content is-size-7">
+      <a href="{child.props.path}?lang=en" on:click="changeLang('en', event)">English</a>
+      |
+      <a href="{child.props.path}?lang=de" on:click="changeLang('de', event)">Deutsch</a>
+    </p>
+	</div>
+</footer>
+
+<style type="text/sass">
+  @import '../styles/bulma-theme.scss';
+
+  .wrapper {
+    position: relative;
+    min-height: 100vh;
+  }
+</style>
+
+<script>
+  export default {
+    components: {
+      Nav: '../components/Nav.html',
+    },
+    methods: {
+      changeLang(lang) {
+        this.store.set({ lang });
+      },
+    },
+  };
+</script>

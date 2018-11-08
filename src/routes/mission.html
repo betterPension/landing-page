@@ -1,0 +1,81 @@
+<section class="section">
+  <div class="container">
+    <h1 class="title has-text-primary has-text-centered">{_($lang, missionTitle)}</h1>
+    <p class="content has-text-centered has-text-weight-bold">{_($lang, missionSubtitle)}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    {#each mission as {title, text, image}, index}
+      <!--<div class="box"> -->
+      <div class="columns {(index % 2 === 1) ? 'reverse-row-order' : ''}">
+        <div class="column is-1-desktop is-hidden-touch"></div>
+        <div class="column text is-6-desktop">
+          <h2 class="subtitle">{_($lang, title)}</h2>
+          <p>{_($lang, text)}</p>
+        </div>
+
+        <div class="column is-1"></div>
+
+        <div class="column is-3-desktop">
+          <img src="content/{image}" alt="" />
+        </div>
+        <div class="column is-1-desktop is-hidden-touch"></div>
+      </div>
+      <!--</div>-->
+    {/each}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container signup">
+    <Signup />
+  </div>
+</section>
+
+<style type="text/sass">
+  @import "../styles/bulma-theme.scss";
+
+  .reverse-row-order {
+    flex-direction: row-reverse;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .signup.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+</style>
+
+
+<script>
+  import _ from '../helpers/localized.js';
+  import { missionTitle, missionSubtitle, mission } from '../texts.js';
+
+  export default {
+    helpers: {
+      _,
+    },
+    data() {
+      return {
+        missionTitle,
+        missionSubtitle,
+        mission,
+      };
+    },
+    components: {
+      Signup: '../components/Signup.html',
+    },
+  };
+</script>

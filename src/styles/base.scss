@@ -1,0 +1,13 @@
+@import './bulma-theme.scss';
+@import 'bulma/sass/utilities/mixins';
+@import 'bulma/sass/base/_all';
+
+html {
+  background-color: $background-color;
+}
+
+.hero.is-fullheight {
+  margin-top: -3.25rem;
+}
+
+// DO NOT COMMIT!

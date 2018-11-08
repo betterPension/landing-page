@@ -1,7 +1,5 @@
-.sapper
-app/manifest
-assets/global.css
-build
-export
+__sapper__
+.DS_Store
 node_modules
+src/manifest
 test/report

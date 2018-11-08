@@ -1,0 +1,77 @@
+<svelte:head>
+  <title>{status}</title>
+</svelte:head>
+
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column first">
+        <h1 class="title">{status}</h1>
+
+        <p class="subtitle">{_($lang, errorMessage)}</p>
+      </div>
+      <div class="column">
+          <img src="content/feeling-blue.svg" alt="" />
+      </div>
+    </div>
+
+    {#if dev && error.stack}
+      <pre>{error.stack}</pre>
+    {/if}
+  </div>
+</section>
+
+
+
+<style type="text/sass">
+  @import "../styles/bulma-theme.scss";
+  @import 'bulma/sass/utilities/mixins.sass';
+
+  .column.first {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  @include tablet() {
+    .title {
+      font-weight: 900;
+      font-size: 134px;
+    }
+
+    .subtitle {
+      font-size: 32px;
+    }
+  }
+
+  @include fullhd() {
+    .title {
+      font-size: 234px;
+    }
+
+    .subtitle {
+      font-size: 50px;
+    }
+  }
+</style>
+
+<script>
+  import _ from '../helpers/localized.js';
+  import { pageNotFound, anErrorOccured } from '../texts.js';
+
+  export default {
+    helpers: {
+      _,
+      dev: process.env.NODE_ENV !== 'production',
+    },
+    computed: {
+      errorMessage({ status }) {
+        if (status === 404) {
+          return pageNotFound;
+        }
+
+        return anErrorOccured;
+      },
+    },
+  };
+</script>

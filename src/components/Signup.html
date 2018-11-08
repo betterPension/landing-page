@@ -1,0 +1,103 @@
+<p class="content has-text-secondary">{_($lang, signupInfo)}</p>
+
+<form class="form" on:submit="sendForm({ event, mail })">
+  {#if error}
+    <div class="notification is-danger">
+      {error.message}
+    </div>
+  {/if}
+
+  <div class="field has-addons">
+    <p class="control is-expanded">
+      <input class="input" type="email" placeholder={_($lang, mailAddressPlaceholder)} disabled="{isSendingForm}" bind:value="mail">
+    </p>
+    <p class="control">
+      <button type="submit" class="button is-primary {is('loading', isSendingForm)}" disabled="{!mail}">{_($lang, signupButtonTitle)}</button>
+    </p>
+  </div>
+
+  <p class="help">{@html _($lang, signupAccept)}</p>
+</form>
+
+<div class="prefetch">
+  <a href="newsletter/bestaetigen"></a>
+  <a href="newsletter/bestaetigung"></a>
+</div>
+
+<style type="text/sass">
+  .prefetch {
+    display: none;
+  }
+</style>
+
+<script>
+  import { goto } from '../../__sapper__/client.js';
+  import { is } from '../helpers/bulma.js';
+  import _ from '../helpers/localized.js';
+  import { mailAddressPlaceholder, signupButtonTitle, signupInfo, signupAccept, signupError,
+    signupAlreadyAdded } from '../texts.js';
+
+  export default {
+    helpers: {
+      is,
+      _,
+    },
+    data() {
+      return {
+        // Texts
+        mailAddressPlaceholder,
+        signupButtonTitle,
+        signupInfo,
+        signupAccept,
+
+        // Form state
+        mail: '',
+        error: null,
+        isFinished: false,
+        isSendingForm: false,
+      };
+    },
+    methods: {
+      sendForm({ event, mail }) {
+        event.preventDefault();
+
+        if (!mail) { return; }
+
+        // prefetch('/newsletter/bestaetigen');
+        // console.log(prefetch('/newsletter/bestaetigen'));
+
+        this.set({ isSendingForm: true, error: false });
+
+        fetch('/api/signup.php', { // eslint-disable-line compat/compat
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ mail }),
+        })
+          .then(async res => {
+            if (res.status !== 200) {
+              let message = _(this.store.lang, signupError);
+
+              try {
+                const details = await res.json();
+
+                if (details.title === 'Member Exists') {
+                  message = _(this.store.lang, signupAlreadyAdded(mail));
+                }
+              } catch (e) {} // eslint-disable-line no-empty
+
+              throw new Error(message);
+            }
+          })
+          .then(() => this.set({ isFinished: true }))
+          .then(() => goto('/newsletter/bestaetigen'))
+          .catch(error => {
+            console.error(error); // eslint-disable-line no-console
+            this.set({ error });
+          })
+          .then(() => this.set({ isSendingForm: false }));
+      },
+    },
+  };
+</script>

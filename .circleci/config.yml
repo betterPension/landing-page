@@ -1,6 +1,6 @@
 defaults: &defaults
   docker:
-    - image: circleci/node:8
+    - image: circleci/node:10
 
 git-login: &git-login
   name: Setting up git user
@@ -17,7 +17,12 @@ jobs:
             - v1-npm-deps-{{ checksum "package-lock.json" }}
       - run:
           name: Installing npm dependencies
-          command: npm install
+          command: |
+            if [[ $CIRCLE_BRANCH = *"greenkeeper/"* ]]; then
+              npm install
+            else
+              npm ci
+            fi
       - run:
           <<: *git-login
       - run:
@@ -31,12 +36,10 @@ jobs:
                 git add package-lock.json
                 git commit -m 'chore(package): Update lockfile [ci skip]';
               else
-                echo "Resetting package-lock changes"
-                git checkout -- package-lock.json
+                echo "Invalid package lock"
+                exit 1
               fi
             fi
-
-            echo "Done"
       - save_cache:
           key: v1-npm-deps-{{ checksum "package-lock.json" }}
           paths:
@@ -79,7 +82,7 @@ jobs:
 
   integration-tests:
     docker:
-      - image: cypress/base:8
+      - image: cypress/base:10
         environment:
           TERM: xterm
     working_directory: ~/project

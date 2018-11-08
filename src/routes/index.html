@@ -1,0 +1,42 @@
+<section class="section">
+  <div class="container">
+    <div class="columns">
+      <div class="column first">
+        <h1 class="title has-text-primary">{_($lang, title)}</h1>
+        <Signup />
+      </div>
+      <div class="column">
+        <img src="content/dashboard.svg" alt="" />
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<style>
+  .column.first {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+</style>
+
+<script>
+  import _ from '../helpers/localized.js';
+  import { homeTitle, mailAddressPlaceholder } from '../texts.js';
+
+  export default {
+    helpers: {
+      _,
+    },
+    data() {
+      return {
+        title: homeTitle,
+        mailAddressPlaceholder,
+      };
+    },
+    components: {
+      Signup: '../components/Signup.html',
+    },
+  };
+</script>
